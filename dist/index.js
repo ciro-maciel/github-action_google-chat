@@ -32577,11 +32577,7 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               text: actor
             }
           },
-          ...(message && {
-            textParagraph: {
-              text: message
-            }
-          }),
+          ...(message ? [{ textParagraph: { text: message } }] : []),
           ...nameWidgets
         ]
       }
