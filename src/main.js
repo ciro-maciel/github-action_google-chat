@@ -23,6 +23,7 @@ async function run() {
     const name = core.getInput('name', { required: true });
     const url = core.getInput('url', { required: true });
     const status = core.getInput('status', { required: true });
+    const message = core.getInput('message');
     const collapseInput = core.getInput('collapse');
     const defaultCollapse = -1;
     let collapse;
@@ -37,7 +38,7 @@ async function run() {
 
     core.debug(`input params: name=${name}, status=${status}, url=${url}, collapse=${collapse}`);
 
-    const ok = await sendNotification(name, url, status, collapse);
+    const ok = await sendNotification(name, url, status, collapse, message);
     if (!ok) {
       core.setFailed('error sending notification to google chat');
     } else {
@@ -48,12 +49,12 @@ async function run() {
   }
 }
 
-async function sendNotification(name, url, status, collapse) {
+async function sendNotification(name, url, status, collapse, message) {
   const { owner, repo } = github.context.repo;
   const { eventName, sha, ref, actor, workflow } = github.context;
   const { number } = github.context.issue;
 
-  const card = createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse });
+  const card = createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse, message });
   const body = createBody(name, card);
 
   try {
@@ -66,7 +67,7 @@ async function sendNotification(name, url, status, collapse) {
   }
 }
 
-function createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse }) {
+function createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse, message }) {
   const statusLower = status.toLowerCase();
   let statusColor;
   const statusName = status.substring(0, 1).toUpperCase() + status.substring(1);
@@ -130,8 +131,8 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
             decoratedText: {
               icon: { iconUrl: 'https://raw.githubusercontent.com/JChrist/google-chat-github-action/main/assets/repo.png' },
               topLabel: 'Repository',
-              text: `${owner}/${repo}`,
-              button: { text: 'Open Repository', onClick: { openLink: { url: repoUrl } } }
+              text: `${owner}/${repo}`
+              // button: { text: 'Open Repository', onClick: { openLink: { url: repoUrl } } }
             }
           },
           {
@@ -149,13 +150,13 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               text: ref
             }
           },
-          {
-            decoratedText: {
-              icon: { iconUrl: 'https://raw.githubusercontent.com/JChrist/google-chat-github-action/main/assets/event_workflow_dispatch.png' },
-              topLabel: 'Workflow',
-              text: workflow
-            }
-          },
+          // {
+          //   decoratedText: {
+          //     icon: { iconUrl: 'https://raw.githubusercontent.com/JChrist/google-chat-github-action/main/assets/event_workflow_dispatch.png' },
+          //     topLabel: 'Workflow',
+          //     text: workflow
+          //   }
+          // },
           {
             decoratedText: {
               icon: { iconUrl: 'https://raw.githubusercontent.com/JChrist/google-chat-github-action/main/assets/actor.png' },
@@ -163,6 +164,11 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               text: actor
             }
           },
+          ...(message && {
+            textParagraph: {
+              text: message
+            }
+          }),
           ...nameWidgets
         ]
       }
