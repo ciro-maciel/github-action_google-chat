@@ -15,11 +15,8 @@ inputs:
     required: true
   collapse:
     description: >
-      The number of _widgets_ in the card section that are not collapsible.
-      Defaults to -1: card is not collapsible.
-      Valid values:
-        *no value/omitted*: the default value
-        number: the number of widgets that are not collapsible. If negative, the card is not collapsible.
+      The number of _widgets_ in the card section that are not collapsible. Defaults to -1: card is not collapsible. The number of widgets that are not
+      collapsible. If negative, the card is not collapsible.
     required: false
     default: '-1'
   message:
