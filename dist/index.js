@@ -32577,18 +32577,18 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               text: actor
             }
           },
-          // ...(message ? [{ textParagraph: { text: message } }] : []),
-          ...(message
-            ? [
-                {
-                  decoratedText: {
-                    icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
-                    topLabel: 'Summary',
-                    text: message
-                  }
-                }
-              ]
-            : []),
+          ...(message ? [{ textParagraph: { text: message } }] : []),
+          // ...(message
+          //   ? [
+          //       {
+          //         decoratedText: {
+          //           icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
+          //           topLabel: 'Summary',
+          //           text: message
+          //         }
+          //       }
+          //     ]
+          //   : []),
           ...nameWidgets
         ]
       }
