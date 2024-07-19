@@ -32603,7 +32603,7 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
           {
             decoratedText: {
               icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
-              topLabel: 'Details',
+              topLabel: 'Name',
               text: '0Af5300001OqEje',
               button: {
                 text: 'Open Details',
