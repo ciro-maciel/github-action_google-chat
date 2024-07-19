@@ -181,8 +181,8 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
       },
       {
         header: `Summary`,
-        collapsible: collapse >= 0,
-        uncollapsibleWidgetsCount: collapse,
+        collapsible: true,
+        uncollapsibleWidgetsCount: 0,
         widgets: [{ textParagraph: { text: message } }]
       }
     ]
