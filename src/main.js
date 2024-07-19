@@ -203,6 +203,7 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
             }
           },
           { textParagraph: { text: message } }
+          // { textParagraph: { text: message } }
         ]
       }
     ]
