@@ -124,7 +124,7 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               icon: { iconUrl: `https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/status_${statusType}.png` },
               topLabel: 'Status',
               text: `<font color="${statusColor}">${statusName}</font>`,
-              button: { text: 'Open Checks', onClick: { openLink: { url: checksUrl } } }
+              button: { text: 'Open Job', onClick: { openLink: { url: checksUrl } } }
             }
           },
           {
@@ -180,12 +180,30 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
         ]
       },
       // https://developers.google.com/workspace/chat/api/reference/rest/v1/cards?hl=pt-br
+      // https://addons.gsuite.google.com/uikit/builder?hl=pt-br
       // https://developers.google.com/workspace/chat/format-messages?hl=pt-br#format-texts
       {
         header: `Summary`,
         collapsible: true,
         // uncollapsibleWidgetsCount: 0,
-        widgets: [{ textParagraph: { text: message } }]
+        widgets: [
+          {
+            decoratedText: {
+              icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
+              topLabel: 'Details',
+              text: '0Af5300001OqEje',
+              button: {
+                text: 'Open Details',
+                onClick: {
+                  openLink: {
+                    url: 'https://k2partnering--ci.sandbox.lightning.force.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0Af5300001OqEje%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp'
+                  }
+                }
+              }
+            }
+          },
+          { textParagraph: { text: message } }
+        ]
       }
     ]
   };
