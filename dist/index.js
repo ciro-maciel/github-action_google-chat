@@ -32529,8 +32529,8 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
     },
     sections: [
       {
-        collapsible: collapse >= 0,
-        uncollapsibleWidgetsCount: collapse,
+        // collapsible: collapse >= 0,
+        // uncollapsibleWidgetsCount: collapse,
         widgets: [
           {
             decoratedText: {
@@ -32538,14 +32538,6 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               topLabel: 'Status',
               text: `<font color="${statusColor}">${statusName}</font>`,
               button: { text: 'Open Checks', onClick: { openLink: { url: checksUrl } } }
-            }
-          },
-          {
-            decoratedText: {
-              icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/repo.png' },
-              topLabel: 'Repository',
-              text: `${owner}/${repo}`
-              // button: { text: 'Open Repository', onClick: { openLink: { url: repoUrl } } }
             }
           },
           {
@@ -32565,19 +32557,27 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
           },
           {
             decoratedText: {
-              icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/event_workflow_dispatch.png' },
-              topLabel: 'Workflow',
-              text: workflow
-            }
-          },
-          {
-            decoratedText: {
               icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/actor.png' },
               topLabel: 'Actor',
               text: actor
             }
           },
-          ...(message ? [{ textParagraph: { text: message } }] : []),
+          // {
+          //   decoratedText: {
+          //     icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/repo.png' },
+          //     topLabel: 'Repository',
+          //     text: `${owner}/${repo}`
+          //     // button: { text: 'Open Repository', onClick: { openLink: { url: repoUrl } } }
+          //   }
+          // },
+          // {
+          //   decoratedText: {
+          //     icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/event_workflow_dispatch.png' },
+          //     topLabel: 'Workflow',
+          //     text: workflow
+          //   }
+          // },
+          // ...(message ? [{ textParagraph: { text: message } }] : []),
           // ...(message
           //   ? [
           //       {
@@ -32591,6 +32591,12 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
           //   : []),
           ...nameWidgets
         ]
+      },
+      {
+        header: `Summary`,
+        collapsible: collapse >= 0,
+        uncollapsibleWidgetsCount: collapse,
+        widgets: [{ textParagraph: { text: message } }]
       }
     ]
   };
