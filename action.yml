@@ -12,13 +12,13 @@ inputs:
   validationId:
     description: 'Salesforce Validation ID'
     required: true
-  validationStatus
+  validationStatus:
     description: 'Salesforce Validation Status'
     required: true
-  validationUrl
+  validationUrl:
     description: 'Salesforce Validation URL'
     required: true
-  validationDetails
+  validationDetails:
     description: 'Salesforce Validation Details'
     required: true
 
