@@ -22,23 +22,13 @@ async function run() {
   try {
     const name = core.getInput('name', { required: true });
     const url = core.getInput('url', { required: true });
-    const status = core.getInput('status', { required: true });
-    const message = core.getInput('message');
-    const collapseInput = core.getInput('collapse');
-    const defaultCollapse = -1;
-    let collapse;
-    if (collapseInput == null || collapseInput === '') {
-      collapse = defaultCollapse;
-    } else {
-      collapse = parseInt(collapseInput);
-      if (isNaN(collapse)) {
-        collapse = defaultCollapse;
-      }
-    }
 
-    core.debug(`input params: name=${name}, status=${status}, url=${url}, collapse=${collapse}`);
+    const validationId = core.getInput('validationId', { required: true });
+    const validationStatus = core.getInput('validationStatus', { required: true });
+    const validationUrl = core.getInput('validationUrl', { required: true });
+    const validationDetails = core.getInput('validationDetails', { required: true });
 
-    const ok = await sendNotification(name, url, status, collapse, message);
+    const ok = await sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails);
     if (!ok) {
       core.setFailed('error sending notification to google chat');
     } else {
@@ -49,12 +39,26 @@ async function run() {
   }
 }
 
-async function sendNotification(name, url, status, collapse, message) {
+async function sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails) {
   const { owner, repo } = github.context.repo;
   const { eventName, sha, ref, actor, workflow } = github.context;
   const { number } = github.context.issue;
 
-  const card = createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse, message });
+  const card = createCard({
+    name,
+    owner,
+    repo,
+    eventName,
+    ref,
+    actor,
+    workflow,
+    sha,
+    number,
+    validationId,
+    validationStatus,
+    validationUrl,
+    validationDetails
+  });
   const body = createBody(name, card);
 
   try {
@@ -67,10 +71,10 @@ async function sendNotification(name, url, status, collapse, message) {
   }
 }
 
-function createCard({ name, status, owner, repo, eventName, ref, actor, workflow, sha, number, collapse, message }) {
-  const statusLower = status.toLowerCase();
+function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, number, validationId, validationStatus, validationUrl, validationDetails }) {
+  const statusLower = validationStatus.toLowerCase();
   let statusColor;
-  const statusName = status.substring(0, 1).toUpperCase() + status.substring(1);
+  const statusName = validationStatus.substring(0, 1).toUpperCase() + validationStatus.substring(1);
   let statusType = statusLower;
   if (statusLower === 'success') {
     statusColor = colors.success;
@@ -116,8 +120,6 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
     },
     sections: [
       {
-        // collapsible: collapse >= 0,
-        // uncollapsibleWidgetsCount: collapse,
         widgets: [
           {
             decoratedText: {
@@ -149,33 +151,6 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
               text: actor
             }
           },
-          // {
-          //   decoratedText: {
-          //     icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/repo.png' },
-          //     topLabel: 'Repository',
-          //     text: `${owner}/${repo}`
-          //     // button: { text: 'Open Repository', onClick: { openLink: { url: repoUrl } } }
-          //   }
-          // },
-          // {
-          //   decoratedText: {
-          //     icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/event_workflow_dispatch.png' },
-          //     topLabel: 'Workflow',
-          //     text: workflow
-          //   }
-          // },
-          // ...(message ? [{ textParagraph: { text: message } }] : []),
-          // ...(message
-          //   ? [
-          //       {
-          //         decoratedText: {
-          //           icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
-          //           topLabel: 'Summary',
-          //           text: message
-          //         }
-          //       }
-          //     ]
-          //   : []),
           ...nameWidgets
         ]
       },
@@ -185,25 +160,23 @@ function createCard({ name, status, owner, repo, eventName, ref, actor, workflow
       {
         header: `Summary`,
         collapsible: true,
-        // uncollapsibleWidgetsCount: 0,
         widgets: [
           {
             decoratedText: {
               icon: { iconUrl: 'https://raw.githubusercontent.com/ciro-maciel/google-chat-github-action/main/assets/summary.png' },
               topLabel: 'Name',
-              text: '0Af5300001OqEje',
+              text: validationId,
               button: {
                 text: 'Open Details',
                 onClick: {
                   openLink: {
-                    url: 'https://k2partnering--ci.sandbox.lightning.force.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0Af5300001OqEje%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp'
+                    url: validationUrl
                   }
                 }
               }
             }
           },
-          { textParagraph: { text: message } }
-          // { textParagraph: { text: message } }
+          { textParagraph: { text: validationDetails } }
         ]
       }
     ]

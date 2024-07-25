@@ -2,7 +2,6 @@ name: 'Google Chat Github Action'
 description: 'Send a notification to Google Chat with the result of a GitHub Action'
 author: 'JChrist'
 
-# Define your inputs here.
 inputs:
   name:
     description: 'Job Name'
@@ -10,18 +9,18 @@ inputs:
   url:
     description: 'Google Chat Webhook URL'
     required: true
-  status:
-    description: 'Job Status'
+  validationId:
+    description: 'Salesforce Validation ID'
     required: true
-  collapse:
-    description: >
-      The number of _widgets_ in the card section that are not collapsible. Defaults to -1: card is not collapsible. The number of widgets that are not
-      collapsible. If negative, the card is not collapsible.
-    required: false
-    default: '-1'
-  message:
-    description: 'Message'
-    required: false
+  validationStatus
+    description: 'Salesforce Validation Status'
+    required: true
+  validationUrl
+    description: 'Salesforce Validation URL'
+    required: true
+  validationDetails
+    description: 'Salesforce Validation Details'
+    required: true
 
 branding:
   icon: 'bell'
