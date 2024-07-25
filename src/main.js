@@ -32,7 +32,7 @@ async function run() {
     if (!ok) {
       core.setFailed('error sending notification to google chat');
     } else {
-      core.debug(`Sent notification: ${name}, ${status}`);
+      core.debug(`Sent notification: ${name}`);
     }
   } catch (e) {
     core.setFailed(`error sending notification to google chat: ${e}`);
