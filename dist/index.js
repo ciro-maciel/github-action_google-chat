@@ -32567,6 +32567,11 @@ function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, n
           ...nameWidgets
         ]
       },
+      {
+        header: `Code Standardization`,
+        collapsible: false,
+        widgets: [{ textParagraph: { text: 'is coming...🫥🤓' } }]
+      },
       // https://developers.google.com/workspace/chat/api/reference/rest/v1/cards?hl=pt-br
       // https://addons.gsuite.google.com/uikit/builder?hl=pt-br
       // https://developers.google.com/workspace/chat/format-messages?hl=pt-br#format-texts

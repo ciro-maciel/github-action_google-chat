@@ -157,9 +157,7 @@ function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, n
       {
         header: `Code Standardization`,
         collapsible: false,
-        widgets: [
-          { textParagraph: { text: 'is coming...🫥🤓' } }
-        ]
+        widgets: [{ textParagraph: { text: 'is coming...🫥🤓' } }]
       },
       // https://developers.google.com/workspace/chat/api/reference/rest/v1/cards?hl=pt-br
       // https://addons.gsuite.google.com/uikit/builder?hl=pt-br
