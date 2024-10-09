@@ -32568,7 +32568,7 @@ function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, n
         ]
       },
       {
-        header: `Code Standardization`,
+        header: `Coding Standards`,
         collapsible: false,
         widgets: [{ textParagraph: { text: 'is coming...🫥🤓' } }]
       },
