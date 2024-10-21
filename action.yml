@@ -21,6 +21,9 @@ inputs:
   validationDetails:
     description: 'Salesforce Validation Details'
     required: true
+  standardsDetails:
+    description: 'Coding Standards Validations'
+    required: false
 
 branding:
   icon: 'bell'

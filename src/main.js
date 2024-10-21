@@ -27,8 +27,9 @@ async function run() {
     const validationStatus = core.getInput('validationStatus', { required: true });
     const validationUrl = core.getInput('validationUrl', { required: true });
     const validationDetails = core.getInput('validationDetails', { required: true });
+    const standardsDetails = core.getInput('standardsDetails', { required: false });
 
-    const ok = await sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails);
+    const ok = await sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails, standardsDetails);
     if (!ok) {
       core.setFailed('error sending notification to google chat');
     } else {
@@ -39,7 +40,7 @@ async function run() {
   }
 }
 
-async function sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails) {
+async function sendNotification(name, url, validationId, validationStatus, validationUrl, validationDetails, standardsDetails) {
   const { owner, repo } = github.context.repo;
   const { eventName, sha, ref, actor, workflow } = github.context;
   const { number } = github.context.issue;
@@ -57,7 +58,8 @@ async function sendNotification(name, url, validationId, validationStatus, valid
     validationId,
     validationStatus,
     validationUrl,
-    validationDetails
+    validationDetails,
+    standardsDetails
   });
   const body = createBody(name, card);
 
@@ -71,7 +73,7 @@ async function sendNotification(name, url, validationId, validationStatus, valid
   }
 }
 
-function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, number, validationId, validationStatus, validationUrl, validationDetails }) {
+function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, number, validationId, validationStatus, validationUrl, validationDetails, standardsDetails }) {
   const statusLower = validationStatus.toLowerCase();
   let statusColor;
   const statusName = validationStatus.substring(0, 1).toUpperCase() + validationStatus.substring(1);
@@ -157,7 +159,7 @@ function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, n
       {
         header: `Coding Standards`,
         collapsible: false,
-        widgets: [{ textParagraph: { text: 'is coming...🫥🤓' } }]
+        widgets: [{ textParagraph: { text: standardsDetails } }]
       },
       // https://developers.google.com/workspace/chat/api/reference/rest/v1/cards?hl=pt-br
       // https://addons.gsuite.google.com/uikit/builder?hl=pt-br
