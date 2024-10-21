@@ -73,7 +73,22 @@ async function sendNotification(name, url, validationId, validationStatus, valid
   }
 }
 
-function createCard({ name, owner, repo, eventName, ref, actor, workflow, sha, number, validationId, validationStatus, validationUrl, validationDetails, standardsDetails }) {
+function createCard({
+  name,
+  owner,
+  repo,
+  eventName,
+  ref,
+  actor,
+  workflow,
+  sha,
+  number,
+  validationId,
+  validationStatus,
+  validationUrl,
+  validationDetails,
+  standardsDetails
+}) {
   const statusLower = validationStatus.toLowerCase();
   let statusColor;
   const statusName = validationStatus.substring(0, 1).toUpperCase() + validationStatus.substring(1);
